@@ -28,7 +28,7 @@ export const ThumbnailManager = ({
   const filteredProjects = projects.filter((project) => (
     project.title.toLocaleLowerCase('es').includes(query.trim().toLocaleLowerCase('es'))
   ));
-  const savedCount = Object.keys(covers).length;
+  const savedCount = projects.filter((project) => covers[project.id] && !project.cover).length;
 
   const showMessage = (projectId, message, isError = false) => {
     setMessages((current) => ({
@@ -73,7 +73,7 @@ export const ThumbnailManager = ({
     const exportProjects = projects.map((project) => {
       const cover = covers[project.id];
       const extension = cover && extensionForType(cover.type);
-      return cover && extension
+      return !project.cover && cover && extension
         ? {
           ...project,
           cover: `/projects/${project.id}.${extension}`,
@@ -134,6 +134,8 @@ export const ThumbnailManager = ({
         <div className="thumbnail-manager-list">
           {filteredProjects.map((project) => {
             const cover = covers[project.id];
+            const isPublished = Boolean(project.cover);
+            const coverUrl = project.cover ?? cover?.url;
             const message = messages[project.id];
             const inputId = `thumbnail-upload-${project.id}`;
             const extension = cover && extensionForType(cover.type);
@@ -141,10 +143,8 @@ export const ThumbnailManager = ({
             return (
               <article className="thumbnail-project-row" key={project.id}>
                 <div className="thumbnail-preview">
-                  {cover?.url ? (
-                    <img src={cover.url} alt={`Miniatura actual de ${project.title}`} />
-                  ) : project.cover ? (
-                    <img src={project.cover} alt={`Miniatura actual de ${project.title}`} />
+                  {coverUrl ? (
+                    <img src={coverUrl} alt={`Miniatura actual de ${project.title}`} />
                   ) : (
                     <span aria-hidden="true">{project.title.slice(0, 1)}</span>
                   )}
@@ -161,34 +161,42 @@ export const ThumbnailManager = ({
                 </div>
 
                 <div className="thumbnail-project-actions">
-                  <input
-                    id={inputId}
-                    className="thumbnail-file-input"
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    aria-label={`Subir miniatura para ${project.title}`}
-                    disabled={isLoading}
-                    onChange={(event) => handleFileChange(project.id, event)}
-                  />
-                  <label className="thumbnail-action-button" htmlFor={inputId}>
-                    {cover ? 'Cambiar' : 'Subir imagen'}
-                  </label>
-                  {cover?.url && (
+                  {isPublished ? (
+                    <span className="thumbnail-published-lock">
+                      Portada publicada · cambio desde código
+                    </span>
+                  ) : (
                     <>
-                      <a
-                        className="thumbnail-action-link"
-                        href={cover.url}
-                        download={`${project.id}.${extension}`}
-                      >
-                        Descargar
-                      </a>
-                      <button
-                        className="thumbnail-action-link thumbnail-remove-button"
-                        type="button"
-                        onClick={() => handleRemove(project.id)}
-                      >
-                        Quitar
-                      </button>
+                      <input
+                        id={inputId}
+                        className="thumbnail-file-input"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        aria-label={`Subir miniatura para ${project.title}`}
+                        disabled={isLoading}
+                        onChange={(event) => handleFileChange(project.id, event)}
+                      />
+                      <label className="thumbnail-action-button" htmlFor={inputId}>
+                        {cover ? 'Cambiar' : 'Subir imagen'}
+                      </label>
+                      {cover?.url && (
+                        <>
+                          <a
+                            className="thumbnail-action-link"
+                            href={cover.url}
+                            download={`${project.id}.${extension}`}
+                          >
+                            Descargar
+                          </a>
+                          <button
+                            className="thumbnail-action-link thumbnail-remove-button"
+                            type="button"
+                            onClick={() => handleRemove(project.id)}
+                          >
+                            Quitar
+                          </button>
+                        </>
+                      )}
                     </>
                   )}
                 </div>

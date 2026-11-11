@@ -339,7 +339,7 @@ Reglas:
 
 El componente `ThumbnailManager` también permite cargar una miniatura desde la interfaz y guardarla en IndexedDB del navegador actual. La vista previa se aplica enseguida a la tarjeta. Incluye descarga individual de cada archivo y exportación de `projects.js` con las rutas preparadas para el despliegue.
 
-Las miniaturas de IndexedDB son locales a ese navegador y **no** se publican automáticamente ni se comparten con otros visitantes. Para hacerlas públicas hay que descargar las imágenes, copiarlas a `public/projects/`, integrar la configuración exportada y desplegar de nuevo. El agente no genera ni modifica las imágenes cargadas.
+Las miniaturas de IndexedDB son locales a ese navegador y **no** se publican automáticamente ni se comparten con otros visitantes. Para hacerlas públicas hay que descargar las imágenes, copiarlas a `public/projects/`, integrar la configuración exportada y desplegar de nuevo. Si `project.cover` ya está configurado en el código, el gestor bloquea los controles de cambio y borrado; editar el código y volver a desplegar es la única forma de cambiar una portada pública. El agente no genera ni modifica las imágenes cargadas.
 
 ---
 
@@ -366,6 +366,7 @@ Las miniaturas de IndexedDB son locales a ese navegador y **no** se publican aut
 | 2026-11-03 | La guía exige revisión visual de escritorio y móvil | El acceso de control a Chrome fue rechazado por la revisión automática. | Pendiente; no marcar E0 completa hasta obtener inspección visual. |
 | 2026-11-11 | La guía sugería proyectos con el esquema hipotético y categorías ejemplo | El usuario confirmó que los seis proyectos existentes eran datos de relleno y definió UPN/docencia, SENA/emprendimientos, personales y Areandina/ingeniería. | Se retiraron los objetos de relleno, se registraron las cuatro categorías y se incorporaron 20 proyectos confirmados desde el Word y los repositorios públicos indicados. |
 | 2026-11-11 | E3 describía únicamente portadas estáticas dentro de `public/projects/` | El usuario pidió cargar miniaturas mediante un módulo de la interfaz. No hay backend ni servicio de archivos. | Se creó `ThumbnailManager` con almacenamiento local en IndexedDB, vista previa en tarjetas y exportación de archivos/configuración. Para publicar las portadas hay que agregarlas al repositorio y desplegar. |
+| 2026-11-11 | El gestor permitía quitar una miniatura guardada localmente | El usuario pidió que una miniatura ya publicada no pueda cambiarse ni quitarse desde la interfaz. | Cuando `project.cover` está configurado, el gestor muestra el estado “Portada publicada” y oculta carga y borrado; los cambios requieren editar código y volver a desplegar. |
 | 2026-11-11 | E0 requería capturas de escritorio y móvil | El usuario compartió captura de escritorio. El permiso a `http://127.0.0.1:5173/` fue denegado en el gate de origen, y no se obtuvo captura móvil. | Se usó la captura entregada y revisión estática de breakpoints. La comparación visual móvil queda pendiente para E7; no se vuelve a solicitar el mismo acceso vía navegador. |
 
 ---

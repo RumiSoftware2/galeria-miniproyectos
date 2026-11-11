@@ -19,6 +19,8 @@ En la galería, abre **Gestionar miniaturas**, busca el proyecto y selecciona un
 
 Esa carga local no se publica automáticamente ni la verán otros visitantes. Para publicar las portadas, descarga cada imagen desde el gestor y también **Descargar configuración con portadas**. Copia las imágenes a `public/projects/` y usa el archivo generado para actualizar `src/data/projects.js`; después haz commit y despliega en Vercel.
 
+Cuando un proyecto ya tenga `cover` registrada en `src/data/projects.js`, su miniatura queda marcada como publicada y el gestor oculta los controles para cambiarla o quitarla. Para modificar una portada pública se debe actualizar el archivo en el código y volver a desplegar.
+
 ## Desarrollo
 
 ```bash

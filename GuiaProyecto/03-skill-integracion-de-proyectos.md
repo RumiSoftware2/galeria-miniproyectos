@@ -141,6 +141,8 @@ Conversión del nombre al `id`: minúsculas → quitar tildes → espacios a gui
 
 > La carga de la interfaz sirve como gestor y previsualización local. Sin backend, otro navegador o visitante no recibe esas imágenes hasta que se agreguen al repositorio y se despliegue una nueva versión.
 
+Una vez que `cover` apunta a una ruta publicada en `projects.js`, el gestor presenta la portada como fija y oculta las opciones para cambiarla o quitarla. Los cambios posteriores de una portada pública se hacen en el código y requieren un nuevo despliegue.
+
 **Prohibido:** generar imágenes, recortarlas o alterarlas sin que el usuario lo pida.
 
 ---

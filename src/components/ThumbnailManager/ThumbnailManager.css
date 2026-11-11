@@ -249,6 +249,19 @@
   color: #a33149;
 }
 
+.thumbnail-published-lock {
+  display: inline-flex;
+  min-height: 2.15rem;
+  align-items: center;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #d8e9de;
+  border-radius: 0.55rem;
+  background: #f2f8f4;
+  color: #426b52;
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
 .thumbnail-manager-empty {
   margin: 0;
   padding: 1rem 0;

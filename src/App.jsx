@@ -33,7 +33,7 @@ function App() {
     : projects.filter((project) => project.category === selectedCategory);
   const visibleProjects = filteredProjects.map((project) => ({
     ...project,
-    cover: covers[project.id]?.url ?? project.cover,
+    cover: project.cover ?? covers[project.id]?.url,
     categoryName: categoryNames.get(project.category) ?? 'Proyecto',
   }));
 

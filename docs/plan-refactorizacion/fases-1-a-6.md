@@ -14,7 +14,7 @@ El usuario confirmó que los seis proyectos iniciales eran datos de relleno y se
 |---|---|
 | E1 · Datos | `src/data/projects.js` es la lista única de fichas; esquema mínimo con id, título, categoría, descripción y enlace. Repositorio y portada opcionales. |
 | E2 · Categorías | `src/data/categories.js` registra UPN/docencia, emprendimientos SENA, proyectos personales y Areandina/Ingeniería. Los ids son `upn`, `sena`, `personales`, `areandina`. |
-| E3 · Portadas | Convención `/projects/<id>.<ext>` en `public/projects/`; fallback visual si falta o falla una imagen, `alt` derivado/configurable y carga diferida. El módulo nuevo permite seleccionar una miniatura por proyecto, previsualizarla y guardarla localmente en IndexedDB. |
+| E3 · Portadas | Convención `/projects/<id>.<ext>` en `public/projects/`; fallback visual si falta o falla una imagen, `alt` derivado/configurable y carga diferida. El módulo permite previsualizar portadas locales en IndexedDB y bloquea los controles cuando `cover` ya está publicada desde el código. |
 | E4 · Componentes | Tarjeta reutilizable con portada, categoría, descripción y enlaces; `ThumbnailManager` centraliza las cargas y permite exportar las imágenes y la configuración para publicarlas después. |
 | E5 · Navegación | Menú con cuatro filtros, opción Todos, conteos, accesos desde el hero, estado vacío y panel móvil. |
 | E6 · Diseño | Se conservó la identidad lila/índigo; se compactó el menú, se ajustaron jerarquías y estilos responsivos, foco visible y lenguaje del documento. El logo `public/logoproyectos.png` se presenta pequeño en el encabezado del panel de áreas para conservar la marca sin ocupar el espacio principal del hero ni estorbar los controles. |
@@ -27,6 +27,8 @@ El usuario confirmó que los seis proyectos iniciales eran datos de relleno y se
 4. Copia las imágenes a `public/projects/`, usa la configuración generada para actualizar `src/data/projects.js`, y luego haz commit y despliega.
 
 Las cargas locales no se sincronizan con Vercel ni con otros visitantes. La configuración exportada asigna a cada imagen una ruta `/projects/<id>.<ext>`.
+
+Cuando un proyecto ya tiene una portada configurada en el código, el gestor la marca como **publicada** y no ofrece cambiarla ni quitarla. Solo un cambio en el código seguido de un nuevo despliegue puede actualizar esa portada pública.
 
 La aplicación valida en ejecución el formato del id, los campos requeridos, la categoría y las URLs. Para el detalle operativo, ver `README.md` y `GuiaProyecto/03-skill-integracion-de-proyectos.md`.
 
