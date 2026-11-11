@@ -1,16 +1,23 @@
-# React + Vite
+# Portafolio Rumi Software
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Galería frontend de proyectos organizada en cuatro áreas: UPN y docencia, emprendimientos SENA, proyectos personales y Areandina / Ingeniería de Sistemas.
 
-Currently, two official plugins are available:
+## Agregar un proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Guarda la imagen de portada en `public/projects/` con el mismo nombre del `id`, por ejemplo `nombre-del-proyecto.webp`. Se aceptan WebP, JPG y PNG.
+2. Agrega un objeto a `src/data/projects.js` con los datos confirmados del proyecto.
+3. Usa exactamente uno de estos ids de categoría: `upn`, `sena`, `personales` o `areandina`.
+4. La portada y el enlace al repositorio son opcionales. Sin portada se muestra una portada neutral; sin repositorio solo se muestra el enlace al proyecto.
 
-## React Compiler
+Campos requeridos: `id` (slug único en kebab-case), `title`, `category`, `description` y `url` (URL HTTPS del sitio). Campos opcionales: `cover`, `coverAlt` y `repoUrl`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+El id de la categoría debe existir en `src/data/categories.js`. Al iniciar la aplicación, los datos se validan y los errores indican qué objeto corregir. No agregues descripciones, tecnologías, fechas, imágenes ni enlaces que el usuario no haya proporcionado.
 
-## Expanding the ESLint configuration
+## Desarrollo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+npm run lint
+npm run build
+```

@@ -1,99 +1,71 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import './Hero.css';
 
-export const Hero = ({ selectedCategory }) => {
-  const contentVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
-    },
-  };
-
-  const imageContainerVariants = {
-    initial: {
-      scale: 1,
-      x: 0,
-      y: 0,
-      opacity: 1,
-    },
-    animated: {
-      scale: 0.25,
-      x: 'calc(100vw - 120px)',
-      y: '-20px',
-      opacity: 0.8,
-      transition: {
-        duration: 0.8,
-        ease: 'easeInOut',
-      },
-    },
-  };
-
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.8, ease: 'easeOut' },
-    },
-  };
-
-  const isGalleryActive = selectedCategory !== 'Todos';
+export const Hero = ({ categories, projectCounts, onCategoryChange }) => {
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <motion.section
-      className="hero"
-      layout
-    >
+    <section id="inicio" className="hero">
+    <div className="hero-orb hero-orb-one" aria-hidden="true" />
+    <div className="hero-orb hero-orb-two" aria-hidden="true" />
+
+    <div className="hero-container">
       <motion.div
-        className="hero-image-container"
-        variants={imageContainerVariants}
-        initial="initial"
-        animate={isGalleryActive ? 'animated' : 'initial'}
+        className="hero-content"
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.55, ease: 'easeOut' }}
       >
-        <motion.div className="hero-image" variants={imageVariants} initial="hidden" animate="visible">
-          <div className="image-wrapper">
-            <div className="gradient-border"></div>
-            <img src="/logoproyectos.png" alt="Logo Proyectos" />
-          </div>
-        </motion.div>
+        <p className="eyebrow"><span /> Portafolio profesional</p>
+        <h1 className="hero-title">
+          Ideas que se convierten en <span>proyectos.</span>
+        </h1>
+        <p className="hero-description">
+          Una colección en crecimiento de proyectos de docencia, emprendimiento,
+          ingeniería e iniciativas personales.
+        </p>
+        <a className="hero-cta" href="#proyectos">
+          Explorar proyectos <span aria-hidden="true">↓</span>
+        </a>
       </motion.div>
 
-      <motion.div
-        className="hero-container"
-        animate={{ 
-          y: isGalleryActive ? -300 : 0,
-          opacity: isGalleryActive ? 0 : 1,
-          pointerEvents: isGalleryActive ? 'none' : 'auto'
-        }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
+      <motion.section
+        className="hero-overview"
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.12, ease: 'easeOut' }}
+        aria-labelledby="overview-title"
       >
-        <motion.div className="hero-content" variants={contentVariants}>
-          <h1 className="hero-title">
-            <span className="text-accent">Portafolio</span> Interactivo
-          </h1>
-          <p className="hero-subtitle">
-            Explora proyectos de desarrollo web, inteligencia artificial y matemáticas aplicada
-          </p>
-          <p className="hero-description">
-            Soluciones innovadoras construidas con tecnología moderna
-          </p>
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        className="scroll-indicator"
-        animate={{
-          opacity: isGalleryActive ? 0 : 1,
-        }}
-        transition={{ duration: 0.4 }}
-      >
-        <span>Explora abajo</span>
-        <div className="mouse">
-          <div className="wheel"></div>
+        <div className="overview-heading">
+          <span className="overview-kicker">01 — 04</span>
+          <h2 id="overview-title" className="overview-title">Áreas del portafolio</h2>
         </div>
-      </motion.div>
-    </motion.section>
+        <ul className="overview-list">
+          {categories.map((category, index) => (
+            <li key={category.id}>
+              <button
+                className="overview-item"
+                type="button"
+                onClick={() => {
+                  onCategoryChange(category.id);
+                  document.getElementById('proyectos')?.scrollIntoView({ behavior: 'auto' });
+                }}
+              >
+                <span className="overview-number">0{index + 1}</span>
+                <span className="overview-name">{category.name}</span>
+                <span className="overview-count">{projectCounts[category.id] ?? 0}</span>
+                <span className="overview-arrow" aria-hidden="true">↗</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <p className="overview-note">Selecciona un área para ver sus proyectos.</p>
+      </motion.section>
+    </div>
+    <div className="hero-bottomline" aria-hidden="true">
+      <span>Proyectos académicos y personales</span>
+      <span>Diseño · Tecnología · Aprendizaje</span>
+    </div>
+  </section>
   );
 };

@@ -1,133 +1,68 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import './ProjectCard.css';
 
-export const ProjectCard = ({ project, index }) => {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        delay: index * 0.1,
-        ease: 'easeOut',
-      },
-    },
-  };
-
-  const hoverVariants = {
-    hover: {
-      y: -10,
-      transition: {
-        duration: 0.3,
-        ease: 'easeOut',
-      },
-    },
-  };
-
-  const statusStyles = {
-    ready: 'status-ready',
-    progress: 'status-progress',
-    planning: 'status-planning',
-  };
+export const ProjectCard = ({ project }) => {
+  const [coverFailed, setCoverFailed] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  const hasCover = Boolean(project.cover) && !coverFailed;
 
   return (
-    <motion.div
+    <motion.article
       className="project-card"
-      variants={cardVariants}
-      whileHover="hover"
-      initial="hidden"
-      animate="visible"
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.35, ease: 'easeOut' }}
+      whileHover={shouldReduceMotion ? undefined : { y: -4 }}
     >
-      <motion.div className="card-inner" variants={hoverVariants}>
-        {/* Image Section */}
-        <div className="card-image">
-          <img src={project.imagen} alt={project.titulo} />
-          <div className="image-overlay">
-            <div className="overlay-content">
-              <motion.button
-                className="btn btn-primary"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => window.open(project.link, '_blank')}
-              >
-                GitHub
-              </motion.button>
-              <motion.button
-                className="btn btn-secondary"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => window.open(project.demo, '_blank')}
-              >
-                Demo
-              </motion.button>
-            </div>
+      <div className={`card-cover${hasCover ? ' has-cover' : ''}`}>
+        {hasCover ? (
+          <img
+            src={project.cover}
+            alt={project.coverAlt || `Portada de ${project.title}`}
+            loading="lazy"
+            width="960"
+            height="540"
+            onError={() => setCoverFailed(true)}
+          />
+        ) : (
+          <div className="card-cover-placeholder" aria-hidden="true">
+            <span className="placeholder-symbol">R</span>
+            <span className="placeholder-line" />
+            <span className="placeholder-caption">Portafolio Rumi</span>
           </div>
-        </div>
+        )}
+        <span className="card-category">{project.categoryName}</span>
+      </div>
 
-        {/* Content Section */}
-        <div className="card-content">
-          {/* Header with Status */}
-          <div className="card-header">
-            <h3 className="card-title">{project.titulo}</h3>
-            <span className={`status-badge ${statusStyles[project.status]}`}>
-              {project.status === 'ready' ? '✓ Ready' : project.status === 'progress' ? '⟳ En progreso' : '○ Planeando'}
-            </span>
-          </div>
-
-          {/* Description */}
-          <p className="card-description">{project.descripcion}</p>
-
-          {/* Features */}
-          <div className="card-features">
-            {project.features.slice(0, 2).map((feature, idx) => (
-              <div key={idx} className="feature-item">
-                <span className="feature-dot">•</span>
-                <span className="feature-text">{feature}</span>
-              </div>
-            ))}
-            {project.features.length > 2 && (
-              <div className="feature-item">
-                <span className="feature-dot">+</span>
-                <span className="feature-text">{project.features.length - 2} más</span>
-              </div>
-            )}
-          </div>
-
-          {/* Technologies */}
-          <div className="card-technologies">
-            {project.tecnologias.map((tech, idx) => (
-              <span key={idx} className="tech-badge">
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          {/* Buttons */}
-          <div className="card-buttons">
-            <motion.a
-              href={project.link}
+      <div className="card-content">
+        <h3 className="card-title">{project.title}</h3>
+        <p className="card-description">{project.description}</p>
+        <div className="card-actions">
+          {project.url && (
+            <a
+              className="project-link project-link-primary"
+              href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-outline"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              aria-label={`Abrir ${project.title}`}
             >
-              → GitHub
-            </motion.a>
-            <motion.a
-              href={project.demo}
+              Ver proyecto <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {project.repoUrl && (
+            <a
+              className="project-link project-link-secondary"
+              href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-outline"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              aria-label={`Ver código de ${project.title}`}
             >
-              → Demo
-            </motion.a>
-          </div>
+              Código <span aria-hidden="true">↗</span>
+            </a>
+          )}
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </motion.article>
   );
 };
