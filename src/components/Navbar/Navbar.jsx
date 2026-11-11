@@ -1,84 +1,121 @@
-import { motion } from 'framer-motion';
-import { categories } from '../../data/projects';
+import { useEffect } from 'react';
 import './Navbar.css';
 
-export const Navbar = ({ selectedCategory, onCategoryChange, isOpen, onToggleSidebar }) => {
-  const sidebarVariants = {
-    hidden: { x: -300, opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        staggerChildren: 0.05,
-        delayChildren: 0.1,
-      },
-    },
+export const Navbar = ({
+  categories,
+  projectCounts,
+  selectedCategory,
+  onCategoryChange,
+  isOpen,
+  onToggleSidebar,
+}) => {
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        onToggleSidebar(false);
+        document.querySelector('.menu-toggle')?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onToggleSidebar]);
+
+  const closeSidebar = () => {
+    onToggleSidebar(false);
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      document.querySelector('.menu-toggle')?.focus();
+    }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
-  };
-
-  const handleCategoryClick = (category) => {
-    onCategoryChange(category);
+  const selectCategory = (categoryId) => {
+    onCategoryChange(categoryId);
+    closeSidebar();
+    document.getElementById('proyectos')?.scrollIntoView({ behavior: 'auto' });
   };
 
   return (
     <>
-      <motion.button
-        className="sidebar-toggle"
+      <button
+        className="menu-toggle"
+        type="button"
+        aria-label={isOpen ? 'Cerrar menú de categorías' : 'Abrir menú de categorías'}
+        aria-expanded={isOpen}
+        aria-controls="category-navigation"
         onClick={() => onToggleSidebar(!isOpen)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
       >
-        <span></span>
-        <span></span>
-        <span></span>
-      </motion.button>
+        <span />
+        <span />
+        <span />
+      </button>
 
-      <motion.nav
-        className={`sidebar-navbar ${isOpen ? 'open' : 'closed'}`}
-        variants={sidebarVariants}
-        initial="hidden"
-        animate={isOpen ? 'visible' : 'hidden'}
+      <aside
+        id="category-navigation"
+        className={`sidebar-navbar${isOpen ? ' is-open' : ''}`}
       >
-        <motion.div className="sidebar-header" variants={itemVariants}>
-          <div className="logo">
-            <span className="logo-text">Rumi</span>
-            <span className="logo-accent">.</span>
-          </div>
-          <button className="close-btn" onClick={() => onToggleSidebar(false)}>
-            ✕
-          </button>
-        </motion.div>
+        <a
+          className="brand"
+          href="#inicio"
+          onClick={() => {
+            onCategoryChange('todos');
+            closeSidebar();
+          }}
+        >
+          <span className="brand-mark" aria-hidden="true">R</span>
+          <span className="brand-name">Rumi<span>.</span></span>
+        </a>
 
-        <motion.div className="sidebar-divider" variants={itemVariants} />
+        <p className="sidebar-intro">Portafolio de proyectos</p>
 
-        <motion.div className="categories-section" variants={sidebarVariants}>
-          <h3 className="section-title">Categorías</h3>
+        <nav className="category-navigation" aria-label="Categorías de proyectos">
+          <p className="nav-eyebrow">Explorar por área</p>
           <ul className="categories-list">
+            <li>
+              <button
+                type="button"
+                className={`category-btn${selectedCategory === 'todos' ? ' active' : ''}`}
+                aria-pressed={selectedCategory === 'todos'}
+                onClick={() => selectCategory('todos')}
+              >
+                <span className="category-indicator" aria-hidden="true">✳</span>
+                <span className="category-label">Todos los proyectos</span>
+                <span className="category-count">{Object.values(projectCounts).reduce((sum, count) => sum + count, 0)}</span>
+              </button>
+            </li>
             {categories.map((category, index) => (
-              <motion.li key={index} variants={itemVariants}>
+              <li key={category.id}>
                 <button
-                  className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
-                  onClick={() => handleCategoryClick(category)}
+                  type="button"
+                  className={`category-btn${selectedCategory === category.id ? ' active' : ''}`}
+                  aria-pressed={selectedCategory === category.id}
+                  onClick={() => selectCategory(category.id)}
                 >
-                  <span className="btn-dot"></span>
-                  {category}
+                  <span className="category-indicator" aria-hidden="true">0{index + 1}</span>
+                  <span className="category-label">{category.shortName}</span>
+                  <span className="category-count">{projectCounts[category.id] ?? 0}</span>
                 </button>
-              </motion.li>
+              </li>
             ))}
           </ul>
-        </motion.div>
+        </nav>
 
-        <motion.div className="sidebar-footer" variants={itemVariants}>
-          <p>&copy; Rumi Software 2024</p>
-        </motion.div>
-      </motion.nav>
+        <div className="sidebar-bottom">
+          <span className="availability-dot" aria-hidden="true" />
+          <p>Portafolio en crecimiento</p>
+          <span className="sidebar-caption">Un espacio para proyectos de distintas áreas.</span>
+        </div>
+      </aside>
 
-      {isOpen && <div className="sidebar-overlay" onClick={() => onToggleSidebar(false)} />}
+      {isOpen && (
+        <button
+          className="sidebar-overlay"
+          type="button"
+          aria-label="Cerrar menú de categorías"
+          onClick={closeSidebar}
+        />
+      )}
     </>
   );
 };

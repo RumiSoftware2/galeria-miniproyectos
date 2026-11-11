@@ -1,0 +1,314 @@
+.thumbnail-manager {
+  margin: -0.65rem 0 2rem;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.thumbnail-manager-summary {
+  display: flex;
+  min-height: 3.8rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.thumbnail-manager-summary::-webkit-details-marker {
+  display: none;
+}
+
+.thumbnail-manager-icon {
+  display: grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 0.6rem;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-size: 1.2rem;
+}
+
+.thumbnail-manager-title {
+  color: var(--color-ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.thumbnail-manager-count {
+  margin-left: auto;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+}
+
+.thumbnail-manager-summary::after {
+  color: var(--color-accent-dark);
+  content: "+";
+  font-size: 1.15rem;
+  font-weight: 600;
+  transition: transform 160ms ease;
+}
+
+.thumbnail-manager[open] .thumbnail-manager-summary::after {
+  transform: rotate(45deg);
+}
+
+.thumbnail-manager-content {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.thumbnail-manager-note {
+  max-width: 66rem;
+  margin: 0.9rem 0 1rem;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.thumbnail-export-button {
+  min-height: 2.45rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 0.6rem;
+  background: var(--color-ink);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.thumbnail-export-button:hover:not(:disabled) {
+  background: var(--color-accent-dark);
+}
+
+.thumbnail-export-button:disabled {
+  background: #d4d2df;
+  color: #77758b;
+  cursor: not-allowed;
+}
+
+.thumbnail-manager-error {
+  margin: 0.5rem 0;
+  color: #a33149;
+  font-size: 0.8rem;
+}
+
+.thumbnail-search-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--color-ink);
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.thumbnail-search {
+  width: min(100%, 25rem);
+  min-height: 2.65rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.65rem;
+  background: #fff;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.thumbnail-search:focus-visible,
+.thumbnail-file-input:focus-visible + .thumbnail-action-button,
+.thumbnail-action-link:focus-visible {
+  outline: 3px solid rgba(109, 99, 245, 0.45);
+  outline-offset: 2px;
+}
+
+.thumbnail-manager-list {
+  display: grid;
+  max-height: 31rem;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.thumbnail-project-row {
+  display: grid;
+  min-height: 5.25rem;
+  grid-template-columns: 6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.55rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.8rem;
+  background: #fff;
+}
+
+.thumbnail-preview {
+  display: grid;
+  overflow: hidden;
+  width: 6rem;
+  aspect-ratio: 16 / 9;
+  place-items: center;
+  border-radius: 0.5rem;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-size: 1.05rem;
+  font-weight: 750;
+}
+
+.thumbnail-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-project-info {
+  min-width: 0;
+}
+
+.thumbnail-project-info h3 {
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 0.82rem;
+  font-weight: 680;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thumbnail-project-info > p {
+  margin: 0.15rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+}
+
+.thumbnail-project-info > .thumbnail-row-message {
+  color: #4d6e5a;
+}
+
+.thumbnail-project-info > .thumbnail-row-message.is-error {
+  color: #a33149;
+}
+
+.thumbnail-project-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.thumbnail-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.thumbnail-action-button,
+.thumbnail-action-link {
+  display: inline-flex;
+  min-height: 2.15rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.55rem;
+  background: #fff;
+  color: var(--color-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.69rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.thumbnail-action-button {
+  border-color: transparent;
+  background: var(--color-ink);
+  color: #fff;
+}
+
+.thumbnail-action-button:hover {
+  background: var(--color-accent-dark);
+}
+
+.thumbnail-action-link:hover {
+  border-color: #d8d4ff;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  text-decoration: none;
+}
+
+.thumbnail-remove-button {
+  color: #a33149;
+}
+
+.thumbnail-published-lock {
+  display: inline-flex;
+  min-height: 2.15rem;
+  align-items: center;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #d8e9de;
+  border-radius: 0.55rem;
+  background: #f2f8f4;
+  color: #426b52;
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
+.thumbnail-manager-empty {
+  margin: 0;
+  padding: 1rem 0;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 700px) {
+  .thumbnail-project-row {
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: 0.65rem;
+  }
+
+  .thumbnail-preview {
+    width: 5rem;
+  }
+
+  .thumbnail-project-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    padding-left: 5.65rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .thumbnail-manager-summary {
+    gap: 0.5rem;
+    padding-inline: 0.7rem;
+  }
+
+  .thumbnail-manager-title {
+    font-size: 0.78rem;
+  }
+
+  .thumbnail-manager-count {
+    font-size: 0.68rem;
+  }
+
+  .thumbnail-manager-content {
+    padding-inline: 0.7rem;
+  }
+
+  .thumbnail-project-row {
+    padding: 0.45rem;
+  }
+
+  .thumbnail-project-actions {
+    padding-left: 0;
+  }
+}
