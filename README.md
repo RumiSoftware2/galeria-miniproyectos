@@ -13,6 +13,12 @@ Campos requeridos: `id` (slug único en kebab-case), `title`, `category`, `descr
 
 El id de la categoría debe existir en `src/data/categories.js`. Al iniciar la aplicación, los datos se validan y los errores indican qué objeto corregir. No agregues descripciones, tecnologías, fechas, imágenes ni enlaces que el usuario no haya proporcionado.
 
+## Subir miniaturas
+
+En la galería, abre **Gestionar miniaturas**, busca el proyecto y selecciona una imagen JPG, PNG o WebP de hasta 8 MB. La tarjeta se actualiza inmediatamente y la miniatura queda guardada en IndexedDB de ese navegador.
+
+Esa carga local no se publica automáticamente ni la verán otros visitantes. Para publicar las portadas, descarga cada imagen desde el gestor y también **Descargar configuración con portadas**. Copia las imágenes a `public/projects/` y usa el archivo generado para actualizar `src/data/projects.js`; después haz commit y despliega en Vercel.
+
 ## Desarrollo
 
 ```bash

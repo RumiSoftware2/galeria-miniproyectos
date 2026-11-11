@@ -3,9 +3,9 @@ import { motion, useReducedMotion } from 'framer-motion';
 import './ProjectCard.css';
 
 export const ProjectCard = ({ project }) => {
-  const [coverFailed, setCoverFailed] = useState(false);
+  const [failedCover, setFailedCover] = useState('');
   const shouldReduceMotion = useReducedMotion();
-  const hasCover = Boolean(project.cover) && !coverFailed;
+  const hasCover = Boolean(project.cover) && failedCover !== project.cover;
 
   return (
     <motion.article
@@ -23,7 +23,7 @@ export const ProjectCard = ({ project }) => {
             loading="lazy"
             width="960"
             height="540"
-            onError={() => setCoverFailed(true)}
+            onError={() => setFailedCover(project.cover)}
           />
         ) : (
           <div className="card-cover-placeholder" aria-hidden="true">

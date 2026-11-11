@@ -40,20 +40,17 @@ export const Hero = ({ categories, projectCounts, onCategoryChange }) => {
             ease: 'easeOut',
           }}
         >
-          <figure className="hero-brand-visual">
-            <img
-              src="/logoproyectos.png"
-              alt="Logo ilustrado de Proyectos Rumi con un perro y un ave junto al nombre de la marca."
-              width="1400"
-              height="1120"
-              fetchPriority="high"
-            />
-          </figure>
-
           <section className="hero-overview" aria-labelledby="overview-title">
             <div className="overview-heading">
               <span className="overview-kicker">01 — 04</span>
               <h2 id="overview-title" className="overview-title">Áreas del portafolio</h2>
+              <img
+                className="overview-brand-logo"
+                src="/logoproyectos.png"
+                alt="Proyectos Rumi"
+                width="1400"
+                height="1120"
+              />
             </div>
             <ul className="overview-list">
               {categories.map((category, index) => (

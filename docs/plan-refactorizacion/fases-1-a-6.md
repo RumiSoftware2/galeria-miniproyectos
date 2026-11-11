@@ -6,7 +6,7 @@ Commit base: `c3e42852ba640a101d080832e3af1f1e024e1c05`
 
 ## Decisión de contenido
 
-El usuario confirmó que los seis proyectos iniciales eran datos de relleno. Se retiraron de la lista activa; no se inventaron proyectos ni portadas. La galería queda vacía hasta que el usuario entregue los datos reales.
+El usuario confirmó que los seis proyectos iniciales eran datos de relleno y se retiraron. La galería contiene ahora 20 proyectos confirmados entre el documento Word y los repositorios públicos de GitHub: 16 UPN, 1 SENA, 1 personal y 2 Areandina. Los proyectos sin demo publicada quedaron fuera por indicación del usuario. Las portadas siguen pendientes; hasta recibirlas se muestra el marcador visual.
 
 ## Etapas preparadas
 
@@ -14,17 +14,19 @@ El usuario confirmó que los seis proyectos iniciales eran datos de relleno. Se 
 |---|---|
 | E1 · Datos | `src/data/projects.js` es la lista única de fichas; esquema mínimo con id, título, categoría, descripción y enlace. Repositorio y portada opcionales. |
 | E2 · Categorías | `src/data/categories.js` registra UPN/docencia, emprendimientos SENA, proyectos personales y Areandina/Ingeniería. Los ids son `upn`, `sena`, `personales`, `areandina`. |
-| E3 · Portadas | Convención `/projects/<id>.<ext>` en `public/projects/`; fallback visual si falta o falla una imagen, `alt` derivado/configurable y carga diferida. |
-| E4 · Componentes | Una tarjeta reutilizable con portada, categoría, descripción, enlace de proyecto y enlace opcional al repositorio. |
+| E3 · Portadas | Convención `/projects/<id>.<ext>` en `public/projects/`; fallback visual si falta o falla una imagen, `alt` derivado/configurable y carga diferida. El módulo nuevo permite seleccionar una miniatura por proyecto, previsualizarla y guardarla localmente en IndexedDB. |
+| E4 · Componentes | Tarjeta reutilizable con portada, categoría, descripción y enlaces; `ThumbnailManager` centraliza las cargas y permite exportar las imágenes y la configuración para publicarlas después. |
 | E5 · Navegación | Menú con cuatro filtros, opción Todos, conteos, accesos desde el hero, estado vacío y panel móvil. |
-| E6 · Diseño | Se conservó la identidad lila/índigo; se compactó el menú, se ajustaron jerarquías y estilos responsivos, foco visible y lenguaje del documento. Por solicitud del usuario, `public/logoproyectos.png` se integró como imagen de marca en el hero, sobre el resumen de categorías. |
+| E6 · Diseño | Se conservó la identidad lila/índigo; se compactó el menú, se ajustaron jerarquías y estilos responsivos, foco visible y lenguaje del documento. El logo `public/logoproyectos.png` se presenta pequeño en el encabezado del panel de áreas para conservar la marca sin ocupar el espacio principal del hero ni estorbar los controles. |
 
 ## Cómo agregar cada proyecto
 
-1. Guarda la imagen que entregue el usuario en `public/projects/` como `<id>.webp`, `.jpg` o `.png`.
-2. Agrega un objeto en el arreglo de `src/data/projects.js` con los datos confirmados.
-3. Usa `category` con uno de los cuatro ids registrados.
-4. Incluye la descripción y la URL HTTPS del sitio. Agrega `repoUrl` solo si el usuario envía el repositorio.
+1. En la galería, abre **Gestionar miniaturas** y busca el proyecto.
+2. Sube una imagen JPG, PNG o WebP de hasta 8 MB. La tarjeta la muestra de inmediato y queda guardada en el navegador actual.
+3. Descarga desde el gestor cada miniatura y el archivo **Descargar configuración con portadas**.
+4. Copia las imágenes a `public/projects/`, usa la configuración generada para actualizar `src/data/projects.js`, y luego haz commit y despliega.
+
+Las cargas locales no se sincronizan con Vercel ni con otros visitantes. La configuración exportada asigna a cada imagen una ruta `/projects/<id>.<ext>`.
 
 La aplicación valida en ejecución el formato del id, los campos requeridos, la categoría y las URLs. Para el detalle operativo, ver `README.md` y `GuiaProyecto/03-skill-integracion-de-proyectos.md`.
 

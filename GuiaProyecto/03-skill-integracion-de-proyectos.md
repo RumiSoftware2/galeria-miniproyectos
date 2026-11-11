@@ -127,14 +127,19 @@ Conversión del nombre al `id`: minúsculas → quitar tildes → espacios a gui
 | Formato recomendado | WebP (JPG/PNG aceptables) |
 | Proporción | La usada por la tarjeta actual (sugerida 16:9) |
 | Peso objetivo | < 200 KB |
+| Gestor visual | `ThumbnailManager` permite buscar el proyecto, subir JPG/PNG/WebP de hasta 8 MB y previsualizar la imagen. |
+| Almacenamiento del gestor | IndexedDB del navegador en uso; estas cargas son locales y no se publican automáticamente. |
 
 **Procedimiento:**
 
-1. Localizar la imagen que el usuario subió.
-2. Confirmar que su nombre corresponde al proyecto (si hay duda, preguntar).
-3. Renombrarla/ubicarla según la convención **sin modificar su contenido**.
-4. Registrar la ruta en `cover` y confirmar que el archivo abra.
-5. Si no hay imagen, la tarjeta muestra un *placeholder* neutral.
+1. Abrir **Gestionar miniaturas** desde la galería y buscar el proyecto.
+2. Subir la imagen. La tarjeta la muestra de inmediato y el gestor la guarda en IndexedDB de ese navegador.
+3. Descargar la imagen desde su fila; el archivo se nombra automáticamente `<id>.<ext>`.
+4. Descargar **Configuración con portadas** para obtener `projects.js` con las rutas `cover` asignadas.
+5. Para publicar, copiar las imágenes a `public/projects/`, actualizar `src/data/projects.js` con la configuración exportada y desplegar el proyecto.
+6. Si no hay imagen, la tarjeta muestra un *placeholder* neutral.
+
+> La carga de la interfaz sirve como gestor y previsualización local. Sin backend, otro navegador o visitante no recibe esas imágenes hasta que se agreguen al repositorio y se despliegue una nueva versión.
 
 **Prohibido:** generar imágenes, recortarlas o alterarlas sin que el usuario lo pida.
 

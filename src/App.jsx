@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Navbar } from './components/Navbar/Navbar';
 import { Hero } from './components/Hero/Hero';
 import { Gallery } from './components/Gallery/Gallery';
+import { useProjectCovers } from './hooks/useProjectCovers';
 import { categories } from './data/categories';
 import { projects } from './data/projects';
 import { validateProjects } from './data/validateProjects';
@@ -13,6 +14,13 @@ validateProjects(projects, categories);
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('todos');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const {
+    covers,
+    isLoading: isLoadingCovers,
+    storageError: coverStorageError,
+    saveCover,
+    removeCover,
+  } = useProjectCovers();
 
   const categoryNames = new Map(categories.map((category) => [category.id, category.shortName]));
   const projectCounts = Object.fromEntries(categories.map(({ id }) => [
@@ -25,6 +33,7 @@ function App() {
     : projects.filter((project) => project.category === selectedCategory);
   const visibleProjects = filteredProjects.map((project) => ({
     ...project,
+    cover: covers[project.id]?.url ?? project.cover,
     categoryName: categoryNames.get(project.category) ?? 'Proyecto',
   }));
 
@@ -49,6 +58,12 @@ function App() {
         <Gallery
           categories={categories}
           projects={visibleProjects}
+          allProjects={projects}
+          covers={covers}
+          isLoadingCovers={isLoadingCovers}
+          coverStorageError={coverStorageError}
+          onSaveCover={saveCover}
+          onRemoveCover={removeCover}
           selectedCategory={selectedCategory}
         />
         <footer className="site-footer">

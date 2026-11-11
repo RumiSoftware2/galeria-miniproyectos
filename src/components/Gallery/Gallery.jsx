@@ -1,8 +1,19 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ProjectCard } from '../ProjectCard/ProjectCard';
+import { ThumbnailManager } from '../ThumbnailManager/ThumbnailManager';
 import './Gallery.css';
 
-export const Gallery = ({ categories, projects, selectedCategory }) => {
+export const Gallery = ({
+  categories,
+  projects,
+  allProjects,
+  covers,
+  isLoadingCovers,
+  coverStorageError,
+  onSaveCover,
+  onRemoveCover,
+  selectedCategory,
+}) => {
   const shouldReduceMotion = useReducedMotion();
   const activeCategory = categories.find(({ id }) => id === selectedCategory);
   const heading = activeCategory?.name ?? 'Todos los proyectos';
@@ -23,6 +34,16 @@ export const Gallery = ({ categories, projects, selectedCategory }) => {
             {projects.length === 1 ? ' proyecto' : ' proyectos'}
           </p>
         </header>
+
+        <ThumbnailManager
+          projects={allProjects}
+          categories={categories}
+          covers={covers}
+          isLoading={isLoadingCovers}
+          storageError={coverStorageError}
+          onSaveCover={onSaveCover}
+          onRemoveCover={onRemoveCover}
+        />
 
         <AnimatePresence mode="wait">
           {projects.length > 0 ? (

@@ -173,14 +173,14 @@ flowchart LR
 
 | Campo | Contenido |
 |---|---|
-| **Objetivo** | Asociar portadas por convención de nombre, con *placeholder* |
+| **Objetivo** | Asociar portadas por convención de nombre, con *placeholder*, y habilitar su carga/preview desde la interfaz |
 | **Problema que resuelve** | Referencias a imágenes manuales y frágiles; imágenes faltantes que rompen la UI **[VERIFICAR]** |
 | **Revisar** | Cómo se cargan hoy las imágenes y dónde están los archivos |
 | **Modificar** | Componente de tarjeta/listado que muestra la imagen |
-| **Nuevos [PROPUESTO]** | `src/utils/resolveCover.js`; directorio de portadas; *placeholder* neutro |
-| **Tareas** | 1) Decidir ubicación según el bundler real. 2) Definir convención `<id>.<ext>`. 3) Implementar `resolveCover(id)` con fallback. 4) Agregar `alt` accesible y carga diferida. 5) Documentar formato, proporción y peso recomendados. |
+| **Nuevos [PROPUESTO]** | `src/data/projectCovers.js` (IndexedDB), `src/hooks/useProjectCovers.js`, `src/components/ThumbnailManager/` y `public/projects/` |
+| **Tareas** | 1) Definir convención `<id>.<ext>`. 2) Mantener fallback visual. 3) Agregar `alt` accesible y carga diferida. 4) Crear gestor local con IndexedDB, previsualización y exportación de imágenes/configuración para publicar. 5) Documentar formatos, tamaño y alcance local. |
 | **Dependencias** | E1 |
-| **Explicación técnica** | La convención evita rutas manuales; el fallback evita imágenes rotas |
+| **Explicación técnica** | La convención evita rutas manuales; el fallback evita imágenes rotas. IndexedDB permite previsualizar y conservar cargas en el navegador sin agregar un backend; el usuario debe copiar/exportar los archivos al repositorio para compartirlas mediante Vercel. |
 | **Resultado esperado** | Proyectos sin portada muestran un *placeholder* sin errores |
 | **Aceptación** | Cero imágenes rotas; `alt` presente en todas las portadas |
 | **Pruebas** | Probar con un proyecto sin imagen; revisar consola; revisión de red |
@@ -191,6 +191,7 @@ flowchart LR
 - [x] Código revisado
 - [x] Convención documentada (`public/projects/<id>.<ext>`)
 - [x] Fallback visual implementado
+- [x] Gestor de miniaturas local con IndexedDB y exportación de archivos/configuración
 - [x] Build OK
 - [ ] Preview visual pendiente del gate de origen denegado
 
@@ -204,8 +205,8 @@ flowchart LR
 | **Problema que resuelve** | Tarjetas o secciones duplicadas por categoría **[VERIFICAR]** |
 | **Revisar** | Componentes de tarjeta, sección y listado actuales |
 | **Modificar** | Componentes duplicados o demasiado grandes (solo los comprobados) |
-| **Nuevos [PROPUESTO]** | `ProjectCard`, `ProjectGrid`, `CategorySection` en `src/components/projects/` |
-| **Tareas** | 1) Extraer la tarjeta existente conservando su diseño. 2) Parametrizar por props. 3) Reemplazar duplicados. 4) Dividir solo componentes realmente sobredimensionados. |
+| **Nuevos [PROPUESTO]** | `ProjectCard` y `ThumbnailManager` en `src/components/` |
+| **Tareas** | 1) Extraer la tarjeta existente conservando su diseño. 2) Parametrizar por props. 3) Reemplazar duplicados. 4) Añadir el gestor de miniaturas sin duplicar la tarjeta. |
 | **Dependencias** | E1, E2, E3 |
 | **Explicación técnica** | Un único componente reduce errores y facilita cambios de diseño |
 | **Resultado esperado** | Todas las categorías usan los mismos componentes |
@@ -216,6 +217,7 @@ flowchart LR
 **Checklist E4**
 - [x] Código revisado
 - [x] Una `ProjectCard` compartida para todos los proyectos
+- [x] `ThumbnailManager` como módulo reutilizable conectado a las portadas de las tarjetas
 - [x] Build OK
 - [ ] Comparación visual nueva en escritorio/móvil pendiente
 

@@ -89,6 +89,7 @@ wc -l $(find src -name "*.jsx" -o -name "*.tsx" -o -name "*.js" -o -name "*.ts" 
 ```text
 src/App.css
 src/App.jsx
+src/hooks/useProjectCovers.js
 src/main.jsx
 src/assets/hero.png
 src/assets/react.svg
@@ -101,7 +102,10 @@ src/components/Navbar/Navbar.css
 src/components/Navbar/Navbar.jsx
 src/components/ProjectCard/ProjectCard.css
 src/components/ProjectCard/ProjectCard.jsx
+src/components/ThumbnailManager/ThumbnailManager.css
+src/components/ThumbnailManager/ThumbnailManager.jsx
 src/data/categories.js
+src/data/projectCovers.js
 src/data/projects.js
 src/data/validateProjects.js
 src/styles/globals.css
@@ -114,18 +118,21 @@ public/projects/.gitkeep
 | Ruta real | Responsabilidad actual | ¿Mezcla responsabilidades? | Líneas |
 |---|---|---|---|
 | `src/main.jsx` | Punto de entrada React | No | 8 |
-| `src/App.jsx`, `src/App.css` | Composición, conteos, filtro activo, pie de página | No; datos y estilos separados | Actualizado E1–E6 |
+| `src/App.jsx`, `src/App.css` | Composición, conteos, filtro activo, portadas locales, pie de página | No; datos y estilos separados | Actualizado E1–E6 |
 | `src/data/categories.js` | Cuatro categorías del portafolio | No | Nuevo en E2 |
-| `src/data/projects.js` | Arreglo vacío y esquema/documentación de ficha | No | Actualizado en E1 |
+| `src/data/projects.js` | Registro de proyectos confirmados y esquema de ficha | No | Actualizado en E1 |
+| `src/data/projectCovers.js` | Lectura, guardado y borrado de archivos Blob mediante IndexedDB | No | Módulo de miniaturas |
+| `src/hooks/useProjectCovers.js` | Hidrata, presenta y limpia URLs locales para las portadas | No | Módulo de miniaturas |
 | `src/data/validateProjects.js` | Validación de ids, campos, categorías y URLs | No | Nuevo en E2 |
 | `src/components/Navbar/*` | Menú lateral, conteos, filtro y panel móvil | No | Actualizado E5–E6 |
 | `src/components/Hero/*` | Presentación y accesos rápidos por categoría | No | Actualizado E4–E6 |
-| `src/components/Gallery/*` | Listado filtrado y estado vacío | No | Actualizado E4–E5 |
+| `src/components/Gallery/*` | Listado filtrado, estado vacío y gestor de miniaturas | No | Actualizado E3–E5 |
 | `src/components/ProjectCard/*` | Portada, descripción y enlaces opcionales | No | Actualizado E3–E4 |
+| `src/components/ThumbnailManager/*` | Búsqueda de proyectos, carga y descarga de miniaturas, exportación de configuración | No | Módulo de miniaturas |
 | `src/styles/globals.css` | Tokens, tipografía, foco visible y reset | No | Actualizado en E6 |
 | `src/assets/hero.png` | Imagen anterior del hero; se conserva pero no se usa | No | N/A |
 | `src/assets/react.svg`, `src/assets/vite.svg` | Recursos del template | No | N/A |
-| `public/favicon.svg`, `public/icons.svg`, `public/logoproyectos.png` | Recursos públicos existentes; `logoproyectos.png` se muestra en el hero como imagen de marca | No | N/A |
+| `public/favicon.svg`, `public/icons.svg`, `public/logoproyectos.png` | Recursos públicos existentes; el logo aparece pequeño en el encabezado de áreas | No | N/A |
 | `public/projects/.gitkeep` | Mantiene la carpeta vacía para portadas que entregue el usuario | No | N/A |
 
 ---
@@ -149,7 +156,7 @@ El agente evaluará cada componente con estos criterios y registrará solo halla
 | ID | Archivo real | Hallazgo comprobado | Evidencia (líneas/fragmento) | Prioridad |
 |---|---|---|---|---|
 | H-001 | `src/data/categories.js` | En la línea base las categorías vivían junto a los proyectos; se centralizaron en E2. | `categories` ahora es su propio registro y alimenta menú, hero y conteos. | P2 · resuelto |
-| H-002 | `src/data/projects.js` | Los seis objetos iniciales eran relleno según el usuario. Se retiraron y se definió un esquema sencillo en inglés para las nuevas fichas. | La lista está vacía; el esquema y validación se documentan en el archivo. | P2 · resuelto |
+| H-002 | `src/data/projects.js` | Los seis objetos iniciales eran relleno según el usuario. Se retiraron y se agregaron los proyectos confirmados con el esquema separado. | La lista activa contiene 20 proyectos y `validateProjects()` verifica sus datos. | P2 · resuelto |
 | H-003 | `public/projects/` | Los seis objetos iniciales apuntaban a imágenes que no existían. Los objetos de relleno se retiraron y se creó la carpeta para portadas futuras. | `public/projects/.gitkeep`; aún no hay portadas reales recibidas. | P1 · resuelto para datos activos |
 | H-004 | `index.html` | El idioma del documento estaba en inglés. | Ahora se declara `lang="es"`. | P2 · resuelto |
 | H-005 | `src/App.jsx` | El footer tenía enlaces placeholder `href="#"`. | Se retiraron los destinos no confirmados; se conserva el GitHub público del portafolio. | P2 · resuelto |
@@ -320,7 +327,7 @@ Reglas:
 
 | Aspecto | Propuesta |
 |---|---|
-| Ubicación | `public/projects/` |
+| Ubicación publicada | `public/projects/` |
 | Nombre de archivo | `<id>.<ext>` (kebab-case, minúsculas, sin tildes ni espacios) |
 | Formato | WebP preferido; JPG/PNG aceptables |
 | Proporción | 16:9 (ej. 1280×720) o la ya usada por las tarjetas actuales |
@@ -330,7 +337,9 @@ Reglas:
 | Accesibilidad | `alt` derivado del título; permite `coverAlt` |
 | Carga | `loading="lazy"` y dimensiones explícitas para evitar saltos de diseño |
 
-El agente **no** genera ni modifica portadas: solo las asocia por nombre.
+El componente `ThumbnailManager` también permite cargar una miniatura desde la interfaz y guardarla en IndexedDB del navegador actual. La vista previa se aplica enseguida a la tarjeta. Incluye descarga individual de cada archivo y exportación de `projects.js` con las rutas preparadas para el despliegue.
+
+Las miniaturas de IndexedDB son locales a ese navegador y **no** se publican automáticamente ni se comparten con otros visitantes. Para hacerlas públicas hay que descargar las imágenes, copiarlas a `public/projects/`, integrar la configuración exportada y desplegar de nuevo. El agente no genera ni modifica las imágenes cargadas.
 
 ---
 
@@ -355,7 +364,8 @@ El agente **no** genera ni modifica portadas: solo las asocia por nombre.
 | 2026-11-03 | Portadas se ubican en `src/assets/covers/` o `public/covers/` según verificación; ejemplos propuestos | Las referencias actuales apuntan a `/projects/*.png`, pero `public/projects/` no existe en el árbol revisado. | No mover ni generar imágenes. Confirmar los recursos requeridos con el usuario antes de resolver las portadas. |
 | 2026-11-03 | Se propone navegar por categorías; rutas deben verificarse | No hay router; estado local filtra categorías y no altera la URL. | Conservar la navegación existente; no introducir rutas sin necesidad. |
 | 2026-11-03 | La guía exige revisión visual de escritorio y móvil | El acceso de control a Chrome fue rechazado por la revisión automática. | Pendiente; no marcar E0 completa hasta obtener inspección visual. |
-| 2026-11-11 | La guía sugería proyectos con el esquema hipotético y categorías ejemplo | El usuario confirmó que los seis proyectos existentes eran datos de relleno y definió UPN/docencia, SENA/emprendimientos, personales y Areandina/ingeniería. | Se retiraron los objetos de relleno, se registraron las cuatro categorías y se dejó la galería preparada sin inventar datos. |
+| 2026-11-11 | La guía sugería proyectos con el esquema hipotético y categorías ejemplo | El usuario confirmó que los seis proyectos existentes eran datos de relleno y definió UPN/docencia, SENA/emprendimientos, personales y Areandina/ingeniería. | Se retiraron los objetos de relleno, se registraron las cuatro categorías y se incorporaron 20 proyectos confirmados desde el Word y los repositorios públicos indicados. |
+| 2026-11-11 | E3 describía únicamente portadas estáticas dentro de `public/projects/` | El usuario pidió cargar miniaturas mediante un módulo de la interfaz. No hay backend ni servicio de archivos. | Se creó `ThumbnailManager` con almacenamiento local en IndexedDB, vista previa en tarjetas y exportación de archivos/configuración. Para publicar las portadas hay que agregarlas al repositorio y desplegar. |
 | 2026-11-11 | E0 requería capturas de escritorio y móvil | El usuario compartió captura de escritorio. El permiso a `http://127.0.0.1:5173/` fue denegado en el gate de origen, y no se obtuvo captura móvil. | Se usó la captura entregada y revisión estática de breakpoints. La comparación visual móvil queda pendiente para E7; no se vuelve a solicitar el mismo acceso vía navegador. |
 
 ---
@@ -366,7 +376,7 @@ Evaluado tras la inspección de código; falta la comparación visual:
 
 - [x] Identidad visual (CSS global y estilos de tarjetas existentes)
 - [x] Navegación actual por categoría y sidebar
-- [x] Contenido de seis proyectos y sus enlaces
+- [x] Contenido de 20 proyectos y sus enlaces
 - [x] Tecnologías y estructura actual
 - [ ] Inspección visual escritorio/móvil y preferencias adicionales del usuario
 
@@ -379,4 +389,5 @@ Evaluado tras la inspección de código; falta la comparación visual:
 | D3 | Una única `ProjectCard` | Elimina duplicación entre categorías | Implementado |
 | D4 | Sin página por proyecto | Los proyectos son enlaces externos | Implementado |
 | D5 | Sin nuevas dependencias salvo justificación | Mantener el proyecto simple | Implementado |
+| D6 | Gestor local de miniaturas con IndexedDB y exportación para despliegue estático | Permite previsualizar y conservar cargas sin backend; requiere copiar/exportar archivos al repo para hacerlas públicas | Implementado en `ThumbnailManager` y `useProjectCovers` |
 | D6 | Confirmar cada decisión contra el código real | El documento se escribió sin acceso al repositorio | **Obligatorio** |

@@ -99,7 +99,7 @@ export const projects = [
     category: 'sena',
     description:
       'Plataforma educativa para crear cursos estructurados con videos de YouTube, evaluaciones interactivas y juegos educativos, y para que los estudiantes sigan su progreso de aprendizaje.',
-    url: 'https://rumi-frontend-wheat.vercel.app/',
+    url: 'https://rumieducation.vercel.app//',
     repoUrl: 'https://github.com/RumiSoftware2/RUMI-educational-platform',
   },
   {
