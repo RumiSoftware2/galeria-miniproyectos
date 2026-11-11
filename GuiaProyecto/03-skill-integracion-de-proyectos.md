@@ -78,11 +78,11 @@ flowchart TD
 | Nombre del proyecto | ✅ | Usuario |
 | Categoría | ✅ | Usuario |
 | Enlace del proyecto | ✅ | Usuario |
-| Imagen de portada (identificada con el nombre del proyecto) | Recomendada | Usuario |
+| Imagen de portada `<id>.<ext>` en `public/projects/` | ✅ para cada tarjeta nueva | Usuario |
 | Descripción | ✅ | Usuario |
 | Repositorio | ⛔ opcional | Usuario |
 
-**Regla:** solo se registra lo que el usuario entregó. Está prohibido inventar descripciones, fechas o características. La descripción es necesaria para publicar una tarjeta.
+**Regla:** solo se registra lo que el usuario entregó. Está prohibido inventar descripciones, fechas o características. La descripción y la portada son necesarias para publicar una tarjeta nueva. Las tarjetas previas sin imagen conservan el placeholder hasta recibir sus portadas.
 
 ---
 
@@ -97,8 +97,8 @@ Esquema **[PROPUESTO]** (confirmar contra el existente; conservar nombres de cam
   category: "id-de-categoria",  // upn, sena, personales o areandina
   description: "...",           // obligatorio; texto entregado por el usuario
   url: "https://...",           // obligatorio; sitio del proyecto
-  cover: "/projects/id.webp",   // opcional; imagen en public/projects/
-  coverAlt: "...",              // opcional
+  cover: "/projects/id.webp",   // miniatura en public/projects/
+  coverAlt: "...",              // texto alternativo; si se omite, se deriva del título
   repoUrl: "https://...",       // opcional; repositorio
 }
 ```

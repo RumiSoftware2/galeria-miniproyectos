@@ -1,3 +1,21 @@
+/**
+ * Para agregar una tarjeta, añade un objeto con este formato al arreglo.
+ * Guarda antes la miniatura en public/projects/<id>.<ext> y usa esa ruta en cover.
+ * El diseño, la tarjeta y su acomodo responsive se generan automáticamente.
+ *
+ * {
+ *   "id": "mi-proyecto",
+ *   "title": "Nombre del proyecto",
+ *   "category": "upn",
+ *   "description": "Descripción breve del proyecto.",
+ *   "url": "https://sitio-del-proyecto.example",
+ *   "cover": "/projects/mi-proyecto.webp",
+ *   "coverAlt": "Vista de la página del proyecto",
+ *   "repoUrl": "https://github.com/usuario/repositorio"
+ * }
+ *
+ * Categorías permitidas: upn, sena, personales y areandina. repoUrl es opcional.
+ */
 export const projects = [
   {
     "id": "laboratorio-ecuaciones-diferenciales",

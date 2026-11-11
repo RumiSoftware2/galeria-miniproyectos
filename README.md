@@ -2,14 +2,26 @@
 
 Galería frontend de proyectos organizada en cuatro áreas: UPN y docencia, emprendimientos SENA, proyectos personales y Areandina / Ingeniería de Sistemas.
 
-## Agregar un proyecto
+## Agregar una tarjeta
 
-1. Guarda la imagen de portada en `public/projects/` con el mismo nombre del `id`, por ejemplo `nombre-del-proyecto.webp`. Se aceptan WebP, JPG y PNG.
-2. Agrega un objeto a `src/data/projects.js` con los datos confirmados del proyecto.
-3. Usa exactamente uno de estos ids de categoría: `upn`, `sena`, `personales` o `areandina`.
-4. La portada y el enlace al repositorio son opcionales. Sin portada se muestra una portada neutral; sin repositorio solo se muestra el enlace al proyecto.
+Para cada proyecto nuevo, copia la imagen a `public/projects/` y agrega **un solo objeto** al arreglo `projects` de `src/data/projects.js`. No es necesario cambiar componentes ni estilos: el grid acomoda las tarjetas automáticamente en escritorio, tablet y móvil.
 
-Campos requeridos: `id` (slug único en kebab-case), `title`, `category`, `description` y `url` (URL HTTPS del sitio). Campos opcionales: `cover`, `coverAlt` y `repoUrl`.
+```js
+{
+  "id": "mi-proyecto",
+  "title": "Nombre del proyecto",
+  "category": "upn",
+  "description": "Descripción breve confirmada del proyecto.",
+  "url": "https://sitio-del-proyecto.example",
+  "cover": "/projects/mi-proyecto.webp",
+  "coverAlt": "Vista de la página del proyecto",
+  "repoUrl": "https://github.com/usuario/repositorio"
+}
+```
+
+La miniatura debe llamarse igual que el `id`, por ejemplo `public/projects/mi-proyecto.webp`. Se aceptan WebP, JPG y PNG. `repoUrl` es opcional; los demás campos del ejemplo completan la tarjeta. Usa exactamente una categoría registrada: `upn`, `sena`, `personales` o `areandina`.
+
+Si aún no se ha copiado la imagen, puedes dejar `cover` fuera temporalmente: la tarjeta muestra un marcador y el gestor permite previsualizar una miniatura en tu navegador. Para publicar esa imagen a todos, el archivo debe quedar en `public/projects/` y su `cover` en `projects.js`.
 
 El id de la categoría debe existir en `src/data/categories.js`. Al iniciar la aplicación, los datos se validan y los errores indican qué objeto corregir. No agregues descripciones, tecnologías, fechas, imágenes ni enlaces que el usuario no haya proporcionado.
 

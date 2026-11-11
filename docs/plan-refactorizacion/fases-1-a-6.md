@@ -6,13 +6,13 @@ Commit base: `c3e42852ba640a101d080832e3af1f1e024e1c05`
 
 ## Decisión de contenido
 
-El usuario confirmó que los seis proyectos iniciales eran datos de relleno y se retiraron. La galería contiene ahora 20 proyectos confirmados entre el documento Word y los repositorios públicos de GitHub: 16 UPN, 1 SENA, 1 personal y 2 Areandina. Los proyectos sin demo publicada quedaron fuera por indicación del usuario. Las portadas siguen pendientes; hasta recibirlas se muestra el marcador visual.
+El usuario confirmó que los seis proyectos iniciales eran datos de relleno y se retiraron. La galería contiene ahora 20 proyectos confirmados entre el documento Word y los repositorios públicos de GitHub: 16 UPN, 1 SENA, 1 personal y 2 Areandina. Los proyectos sin demo publicada quedaron fuera por indicación del usuario. La miniatura de Laboratorio de ecuaciones diferenciales ya está en `public/projects/`; los otros proyectos conservan el marcador hasta recibir sus imágenes.
 
 ## Etapas preparadas
 
 | Etapa | Resultado |
 |---|---|
-| E1 · Datos | `src/data/projects.js` es la lista única de fichas; esquema mínimo con id, título, categoría, descripción y enlace. Repositorio y portada opcionales. |
+| E1 · Datos | `src/data/projects.js` es la lista única de fichas. Para cada tarjeta nueva se agrega un objeto con id, título, categoría, descripción, enlace y ruta de miniatura; el repositorio es opcional. |
 | E2 · Categorías | `src/data/categories.js` registra UPN/docencia, emprendimientos SENA, proyectos personales y Areandina/Ingeniería. Los ids son `upn`, `sena`, `personales`, `areandina`. |
 | E3 · Portadas | Convención `/projects/<id>.<ext>` en `public/projects/`; fallback visual si falta o falla una imagen, `alt` derivado/configurable y carga diferida. El módulo permite previsualizar portadas locales en IndexedDB y bloquea los controles cuando `cover` ya está publicada desde el código. |
 | E4 · Componentes | Tarjeta reutilizable con portada, categoría, descripción y enlaces; `ThumbnailManager` centraliza las cargas y permite exportar las imágenes y la configuración para publicarlas después. |
@@ -21,14 +21,14 @@ El usuario confirmó que los seis proyectos iniciales eran datos de relleno y se
 
 ## Cómo agregar cada proyecto
 
-1. En la galería, abre **Gestionar miniaturas** y busca el proyecto.
-2. Sube una imagen JPG, PNG o WebP de hasta 8 MB. La tarjeta la muestra de inmediato y queda guardada en el navegador actual.
-3. Descarga desde el gestor cada miniatura y el archivo **Descargar configuración con portadas**.
-4. Copia las imágenes a `public/projects/`, usa la configuración generada para actualizar `src/data/projects.js`, y luego haz commit y despliega.
+1. Crea un `id` único en kebab-case.
+2. Copia la miniatura final a `public/projects/<id>.<ext>`.
+3. Añade un objeto a `src/data/projects.js` con los campos del ejemplo del README e incluye `cover: '/projects/<id>.<ext>'`.
+4. La tarjeta se crea y se acomoda automáticamente en el grid responsivo; no se modifican componentes ni estilos.
 
 Las cargas locales no se sincronizan con Vercel ni con otros visitantes. La configuración exportada asigna a cada imagen una ruta `/projects/<id>.<ext>`.
 
-Cuando un proyecto ya tiene una portada configurada en el código, el gestor la marca como **publicada** y no ofrece cambiarla ni quitarla. Solo un cambio en el código seguido de un nuevo despliegue puede actualizar esa portada pública.
+El gestor local sigue disponible para previsualizar imágenes. Cuando un proyecto ya tiene una portada configurada en el código, se marca como **publicada** y no ofrece cambiarla ni quitarla. Solo un cambio en el código seguido de un nuevo despliegue puede actualizar esa portada pública.
 
 La aplicación valida en ejecución el formato del id, los campos requeridos, la categoría y las URLs. Para el detalle operativo, ver `README.md` y `GuiaProyecto/03-skill-integracion-de-proyectos.md`.
 
