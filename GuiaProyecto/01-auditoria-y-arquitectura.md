@@ -125,7 +125,7 @@ public/projects/.gitkeep
 | `src/styles/globals.css` | Tokens, tipografía, foco visible y reset | No | Actualizado en E6 |
 | `src/assets/hero.png` | Imagen anterior del hero; se conserva pero no se usa | No | N/A |
 | `src/assets/react.svg`, `src/assets/vite.svg` | Recursos del template | No | N/A |
-| `public/favicon.svg`, `public/icons.svg`, `public/logoproyectos.png` | Recursos públicos existentes; el logo anterior no se usa en el hero actual | No | N/A |
+| `public/favicon.svg`, `public/icons.svg`, `public/logoproyectos.png` | Recursos públicos existentes; `logoproyectos.png` se muestra en el hero como imagen de marca | No | N/A |
 | `public/projects/.gitkeep` | Mantiene la carpeta vacía para portadas que entregue el usuario | No | N/A |
 
 ---

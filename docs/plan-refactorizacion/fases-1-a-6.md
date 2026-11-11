@@ -17,7 +17,7 @@ El usuario confirmó que los seis proyectos iniciales eran datos de relleno. Se 
 | E3 · Portadas | Convención `/projects/<id>.<ext>` en `public/projects/`; fallback visual si falta o falla una imagen, `alt` derivado/configurable y carga diferida. |
 | E4 · Componentes | Una tarjeta reutilizable con portada, categoría, descripción, enlace de proyecto y enlace opcional al repositorio. |
 | E5 · Navegación | Menú con cuatro filtros, opción Todos, conteos, accesos desde el hero, estado vacío y panel móvil. |
-| E6 · Diseño | Se conservó la identidad lila/índigo; se compactó el menú, se retiró la imagen grande del hero que competía con el contenido, se ajustaron jerarquías y estilos responsivos, foco visible y lenguaje del documento. |
+| E6 · Diseño | Se conservó la identidad lila/índigo; se compactó el menú, se ajustaron jerarquías y estilos responsivos, foco visible y lenguaje del documento. Por solicitud del usuario, `public/logoproyectos.png` se integró como imagen de marca en el hero, sobre el resumen de categorías. |
 
 ## Cómo agregar cada proyecto
 

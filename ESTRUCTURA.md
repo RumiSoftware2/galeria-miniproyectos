@@ -6,7 +6,7 @@ src/
 ├── App.css                         # Layout principal y pie de página
 ├── components/
 │   ├── Navbar/                      # Menú de categorías, incluidos móvil y escritorio
-│   ├── Hero/                        # Presentación y accesos rápidos a categorías
+│   ├── Hero/                        # Presentación, logo de marca y accesos por categoría
 │   ├── Gallery/                     # Filtrado y estado vacío de la galería
 │   └── ProjectCard/                 # Tarjeta de proyecto con portada y enlaces
 ├── data/
