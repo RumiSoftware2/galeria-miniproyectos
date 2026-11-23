@@ -1,3 +1,21 @@
+/**
+ * Para agregar una tarjeta, añade un objeto con este formato al arreglo.
+ * Guarda antes la miniatura en public/projects/<id>.<ext> y usa esa ruta en cover.
+ * El diseño, la tarjeta y su acomodo responsive se generan automáticamente.
+ *
+ * {
+ *   "id": "mi-proyecto",
+ *   "title": "Nombre del proyecto",
+ *   "category": "upn",
+ *   "description": "Descripción breve del proyecto.",
+ *   "url": "https://sitio-del-proyecto.example",
+ *   "cover": "/projects/mi-proyecto.webp",
+ *   "coverAlt": "Vista de la página del proyecto",
+ *   "repoUrl": "https://github.com/usuario/repositorio"
+ * }
+ *
+ * Categorías permitidas: upn, sena, personales y areandina. repoUrl es opcional.
+ */
 export const projects = [
   {
     "id": "laboratorio-ecuaciones-diferenciales",
@@ -13,72 +31,56 @@ export const projects = [
     "title": "Criptografía y división de polinomios",
     "category": "upn",
     "description": "Aplicativo web en JavaScript nativo para cifrar y descifrar frases mediante división de polinomios y comprobación del resultado.",
-    "url": "https://practicasipn.netlify.app/",
-    "cover": "/projects/criptografia-division-polinomios.png",
-    "coverAlt": "Miniatura de Criptografía y división de polinomios"
+    "url": "https://practicasipn.netlify.app/"
   },
   {
     "id": "salto-lab",
     "title": "Salto Lab",
     "category": "upn",
     "description": "Aplicativo web para grabar o cargar un video y medir y explicar un salto vertical.",
-    "url": "https://deportesaltos.netlify.app/",
-    "cover": "/projects/salto-lab.png",
-    "coverAlt": "Miniatura de Salto Lab"
+    "url": "https://deportesaltos.netlify.app/"
   },
   {
     "id": "portafolio-profesional",
     "title": "Portafolio profesional",
     "category": "upn",
     "description": "Aplicativo web desarrollado con React y Tailwind CSS para presentar habilidades en un portafolio interactivo de diseño moderno.",
-    "url": "https://portafoliosmendo.netlify.app/",
-    "cover": "/projects/portafolio-profesional.png",
-    "coverAlt": "Miniatura de Portafolio profesional"
+    "url": "https://portafoliosmendo.netlify.app/"
   },
   {
     "id": "hoja-de-vida-digital",
     "title": "Repositorio hoja de vida",
     "category": "upn",
     "description": "Aplicativo web desarrollado con React y CSS que permite acceder rápidamente a una hoja de vida digital mediante un código QR en formato físico, junto con el portafolio y material digital.",
-    "url": "https://sebascv.netlify.app/",
-    "cover": "/projects/hoja-de-vida-digital.png",
-    "coverAlt": "Miniatura de Repositorio hoja de vida"
+    "url": "https://sebascv.netlify.app/"
   },
   {
     "id": "clase-funcion-lineal",
     "title": "Clase: función lineal",
     "category": "upn",
     "description": "Recurso web en JavaScript nativo, con formato de juego por diapositivas, para responder preguntas y construir paso a paso el concepto de función lineal.",
-    "url": "https://funcionlineal12.netlify.app/",
-    "cover": "/projects/clase-funcion-lineal.png",
-    "coverAlt": "Miniatura de Clase: función lineal"
+    "url": "https://funcionlineal12.netlify.app/"
   },
   {
     "id": "clase-concepto-funcion",
     "title": "Clase: concepto de función",
     "category": "upn",
     "description": "Recurso web en JavaScript nativo, con formato de juego por diapositivas, para responder preguntas y construir paso a paso el concepto de función.",
-    "url": "https://conceptofuncion.netlify.app/",
-    "cover": "/projects/clase-concepto-funcion.png",
-    "coverAlt": "Miniatura de Clase: concepto de función"
+    "url": "https://conceptofuncion.netlify.app/"
   },
   {
     "id": "clase-ecuaciones-algebraicas",
     "title": "Clase: ecuaciones algebraicas",
     "category": "upn",
     "description": "Recurso web en JavaScript nativo, con formato de juego por diapositivas, para responder preguntas y construir paso a paso el concepto de ecuaciones de primer grado.",
-    "url": "https://ecuacionesdeprimergrado1.netlify.app/",
-    "cover": "/projects/clase-ecuaciones-algebraicas.png",
-    "coverAlt": "Miniatura de Clase: ecuaciones algebraicas"
+    "url": "https://ecuacionesdeprimergrado1.netlify.app/"
   },
   {
     "id": "gaceta-numerica",
     "title": "Gaceta Numérica",
     "category": "upn",
     "description": "Aplicativo web en JavaScript nativo para compartir semanalmente un código en la monitoría de sistemas numéricos. Los estudiantes de la Licenciatura en Matemáticas podían ingresarlo para descubrir una noticia o un evento importante para las matemáticas.",
-    "url": "https://gacetanumerica.netlify.app/",
-    "cover": "/projects/gaceta-numerica.png",
-    "coverAlt": "Miniatura de Gaceta Numérica"
+    "url": "https://gacetanumerica.netlify.app/"
   },
   {
     "id": "refuerzo-potenciacion",
@@ -100,9 +102,7 @@ export const projects = [
     "category": "sena",
     "description": "Plataforma educativa para crear cursos estructurados con videos de YouTube, evaluaciones interactivas y juegos educativos, y para que los estudiantes sigan su progreso de aprendizaje.",
     "url": "https://rumieducation.vercel.app//",
-    "repoUrl": "https://github.com/RumiSoftware2/RUMI-educational-platform",
-    "cover": "/projects/rumi-plataforma-educativa.png",
-    "coverAlt": "Miniatura de RUMI · Plataforma educativa"
+    "repoUrl": "https://github.com/RumiSoftware2/RUMI-educational-platform"
   },
   {
     "id": "miniaventuras-pom-eje3",
@@ -118,9 +118,7 @@ export const projects = [
     "category": "upn",
     "description": "Aplicación web para convertir números n-mal entre bases numéricas, expresar números periódicos como fracciones y realizar operaciones aritméticas con fracciones en distintas bases, mostrando los pasos del proceso.",
     "url": "https://nmal-fraccion.vercel.app/",
-    "repoUrl": "https://github.com/RumiSoftware2/nmal_fraccion",
-    "cover": "/projects/math-tutor-nmal-fraccion.png",
-    "coverAlt": "Miniatura de Math Tutor · Conversor N-mal y fracciones"
+    "repoUrl": "https://github.com/RumiSoftware2/nmal_fraccion"
   },
   {
     "id": "consulta-votos-horarios",
@@ -144,9 +142,7 @@ export const projects = [
     "category": "upn",
     "description": "Bingo educativo para practicar factorización de polinomios en grado octavo. Proyecta polinomios sin repetir, permite marcarlos en cartones impresos e identifica a los ganadores.",
     "url": "https://bingo-algebraico.vercel.app/",
-    "repoUrl": "https://github.com/RumiSoftware2/bingoAlgebraico",
-    "cover": "/projects/liga-del-algebra.png",
-    "coverAlt": "Miniatura de Liga del Álgebra"
+    "repoUrl": "https://github.com/RumiSoftware2/bingoAlgebraico"
   },
   {
     "id": "qr-inversores",
@@ -170,8 +166,6 @@ export const projects = [
     "category": "personales",
     "description": "Frontend para una tienda de muestras vocales, presets y otros productos digitales, con catálogo, búsqueda y filtros, carrito de compras y flujo de pago.",
     "url": "https://wizard-frontend-ten.vercel.app/",
-    "repoUrl": "https://github.com/RumiSoftware2/wizard-frontend",
-    "cover": "/projects/karra-ecommerce.png",
-    "coverAlt": "Miniatura de KARRA · Ecommerce de productos digitales"
+    "repoUrl": "https://github.com/RumiSoftware2/wizard-frontend"
   }
 ];
